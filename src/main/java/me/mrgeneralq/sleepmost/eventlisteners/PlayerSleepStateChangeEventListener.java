@@ -99,7 +99,7 @@ public class PlayerSleepStateChangeEventListener implements Listener {
         if (this.sleepService.getSleepersAmount(world) > this.sleepService.getRequiredSleepersCount(world))
             return;
 
-        Bukkit.getRegionScheduler().runDelayed(sleepmost, player.getLocation(), scheduledTask ->
+        Bukkit.getGlobalRegionScheduler().runDelayed(sleepmost, scheduledTask ->
         {
 
             SleepMostWorld sleepMostWorld = this.sleepMostWorldService.getWorld(world);
