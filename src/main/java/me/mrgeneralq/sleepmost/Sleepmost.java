@@ -1,5 +1,6 @@
 package me.mrgeneralq.sleepmost;
 
+import me.mrgeneralq.sleepmost.commands.SleepmostCommand;
 import me.mrgeneralq.sleepmost.enums.HookType;
 import me.mrgeneralq.sleepmost.eventlisteners.*;
 import me.mrgeneralq.sleepmost.eventlisteners.hooks.GSitEventListener;
@@ -12,17 +13,14 @@ import me.mrgeneralq.sleepmost.mappers.MessageMapper;
 import me.mrgeneralq.sleepmost.models.Hook;
 import me.mrgeneralq.sleepmost.placeholderapi.PapiExtension;
 import me.mrgeneralq.sleepmost.runnables.Heartbeat;
+import me.mrgeneralq.sleepmost.statics.Bootstrapper;
 import me.mrgeneralq.sleepmost.statics.ServerVersion;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import me.mrgeneralq.sleepmost.commands.SleepmostCommand;
-import me.mrgeneralq.sleepmost.statics.Bootstrapper;
 
 public class Sleepmost extends JavaPlugin {
 
@@ -36,10 +34,6 @@ public class Sleepmost extends JavaPlugin {
 
         instance = this;
         saveDefaultConfig();
-
-        //init metrics
-        final int bStatsID = 6212;
-        new Metrics(this, bStatsID);
 
         //load the messages at start
         MessageMapper.getMapper().loadMessages();
