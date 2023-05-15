@@ -1,29 +1,29 @@
 package me.mrgeneralq.sleepmost.eventlisteners;
 
-import static me.mrgeneralq.sleepmost.enums.SleepSkipCause.NIGHT_TIME;
-
-import me.mrgeneralq.sleepmost.enums.MessageKey;
-import me.mrgeneralq.sleepmost.enums.SleepersOrAllType;
-import me.mrgeneralq.sleepmost.exceptions.InvalidSleepSkipCauseOccurredException;
 import me.mrgeneralq.sleepmost.Sleepmost;
+import me.mrgeneralq.sleepmost.builders.MessageBuilder;
+import me.mrgeneralq.sleepmost.enums.MessageKey;
+import me.mrgeneralq.sleepmost.enums.SleepSkipCause;
+import me.mrgeneralq.sleepmost.enums.SleepersOrAllType;
+import me.mrgeneralq.sleepmost.events.SleepSkipEvent;
+import me.mrgeneralq.sleepmost.exceptions.InvalidSleepSkipCauseOccurredException;
 import me.mrgeneralq.sleepmost.flags.SkipSoundFlag;
 import me.mrgeneralq.sleepmost.flags.UseSkipSoundFlag;
 import me.mrgeneralq.sleepmost.interfaces.*;
-import me.mrgeneralq.sleepmost.builders.MessageBuilder;
-import me.mrgeneralq.sleepmost.models.ConfigMessage;
+import me.mrgeneralq.sleepmost.statics.DataContainer;
 import me.mrgeneralq.sleepmost.statics.ServerVersion;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Statistic;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import me.mrgeneralq.sleepmost.enums.SleepSkipCause;
-import me.mrgeneralq.sleepmost.events.SleepSkipEvent;
-import me.mrgeneralq.sleepmost.statics.DataContainer;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static me.mrgeneralq.sleepmost.enums.SleepSkipCause.NIGHT_TIME;
 
 public class SleepSkipEventListener implements Listener {
 
@@ -76,12 +76,7 @@ public class SleepSkipEventListener implements Listener {
 
 
         if (ServerVersion.CURRENT_VERSION.supportsTitles()) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    sendSkipTitle(world, e);
-                }
-            }.runTaskLater(Sleepmost.getInstance(), 5);
+            Bukkit.getGlobalRegionScheduler().runDelayed(Sleepmost.getInstance(), scheduledTask -> sendSkipTitle(world, e), 5);
         }
         
         boolean shouldHeal = flagsRepository.getHealFlag().getValueAt(world);

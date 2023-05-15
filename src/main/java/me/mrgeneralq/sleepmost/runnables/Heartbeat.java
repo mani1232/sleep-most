@@ -3,7 +3,6 @@ package me.mrgeneralq.sleepmost.runnables;
 import me.mrgeneralq.sleepmost.enums.SleepSkipCause;
 import me.mrgeneralq.sleepmost.enums.TimeCycle;
 import me.mrgeneralq.sleepmost.events.TimeCycleChangeEvent;
-import me.mrgeneralq.sleepmost.flags.LongerNightDurationFlag;
 import me.mrgeneralq.sleepmost.interfaces.IFlagsRepository;
 import me.mrgeneralq.sleepmost.interfaces.IInsomniaService;
 import me.mrgeneralq.sleepmost.interfaces.ISleepMostWorldService;
@@ -14,12 +13,11 @@ import me.mrgeneralq.sleepmost.statics.Time;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Calendar;
 import java.util.stream.Collectors;
 
-public class Heartbeat extends BukkitRunnable {
+public class Heartbeat implements Runnable {
 
 
     private final ISleepService sleepService;

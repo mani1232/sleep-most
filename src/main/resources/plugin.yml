@@ -3,6 +3,7 @@ api-version: 1.13
 version: ${project.version}
 main: me.mrgeneralq.sleepmost.Sleepmost
 authors: [MrGeneralQ, HorrendousEntity]
+folia-supported: true
 commands:
   sleepmost:
     usage: /sleepmost

@@ -40,17 +40,15 @@ public class PlayerJoinEventListener implements Listener {
         Player player = e.getPlayer();
 
         //if player does not exist yet, register. Avoid players disconnecting and reconnecting to reset their profile
-        if(!this.sleepMostPlayerService.playerExists(player))
-        this.sleepMostPlayerService.registerNewPlayer(player);
+        if(!this.sleepMostPlayerService.playerExists(player)) this.sleepMostPlayerService.registerNewPlayer(player);
 
 
-        if(ServerVersion.CURRENT_VERSION.supportsBossBars())
-        this.bossBarService.registerPlayer(player.getWorld(), player);
+        if(ServerVersion.CURRENT_VERSION.supportsBossBars()) this.bossBarService.registerPlayer(player.getWorld(), player);
 
         if (!player.hasPermission(UPDATE_PERMISSION))
             return;
 
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
+        Bukkit.getAsyncScheduler().runNow(plugin, scheduledTask ->
         {
             if(updateService.hasUpdate())
                 notifyNewUpdate(player);

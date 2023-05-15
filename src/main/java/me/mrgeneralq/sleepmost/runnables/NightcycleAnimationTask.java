@@ -1,20 +1,20 @@
 package me.mrgeneralq.sleepmost.runnables;
 
+import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import me.mrgeneralq.sleepmost.enums.MessageKey;
+import me.mrgeneralq.sleepmost.enums.SleepSkipCause;
 import me.mrgeneralq.sleepmost.interfaces.*;
 import me.mrgeneralq.sleepmost.models.SleepMostWorld;
 import me.mrgeneralq.sleepmost.statics.DataContainer;
-import me.mrgeneralq.sleepmost.enums.SleepSkipCause;
 import me.mrgeneralq.sleepmost.statics.ServerVersion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class NightcycleAnimationTask extends BukkitRunnable {
+public class NightcycleAnimationTask implements Runnable {
 
     private final ISleepService sleepService;
     private final DataContainer dataContainer = DataContainer.getContainer();
@@ -27,12 +27,14 @@ public class NightcycleAnimationTask extends BukkitRunnable {
     private final String lastSLeeperDisplayName;
     private final SleepSkipCause skipCause;
     private final List<OfflinePlayer> peopleWhoSlept;
+    private final ScheduledTask task;
     private int iterationCount = 1;
 
-    public NightcycleAnimationTask(ISleepService sleepService, IFlagsRepository flagsRepository, World world, Player lastSleeper, List<OfflinePlayer> peopleWhoSlept, SleepSkipCause sleepSkipCause, ISleepMostWorldService sleepMostWorldService, IMessageService messageService, IConfigService configService) {
+    public NightcycleAnimationTask(ScheduledTask task, ISleepService sleepService, IFlagsRepository flagsRepository, World world, Player lastSleeper, List<OfflinePlayer> peopleWhoSlept, SleepSkipCause sleepSkipCause, ISleepMostWorldService sleepMostWorldService, IMessageService messageService, IConfigService configService) {
         this.sleepService = sleepService;
         this.flagsRepository = flagsRepository;
         this.world = world;
+        this.task = task;
         this.lastSleeperName = lastSleeper.getName();
         this.lastSLeeperDisplayName = lastSleeper.getDisplayName();
         this.skipCause = sleepSkipCause;
@@ -52,7 +54,7 @@ public class NightcycleAnimationTask extends BukkitRunnable {
             sleepMostWorld.setTimeCycleAnimationIsRunning(false);
 
             this.sleepService.executeSleepReset(world, this.lastSleeperName, this.lastSLeeperDisplayName ,  this.peopleWhoSlept , this.skipCause);
-            this.cancel();
+            this.task.cancel();
 
             if(this.flagsRepository.getClockAnimationFlag().getValueAt(world) && ServerVersion.CURRENT_VERSION.supportsTitles() && skipCause == SleepSkipCause.NIGHT_TIME){
 
