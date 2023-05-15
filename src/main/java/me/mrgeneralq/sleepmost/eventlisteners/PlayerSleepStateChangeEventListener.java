@@ -85,7 +85,7 @@ public class PlayerSleepStateChangeEventListener implements Listener {
             this.updateBossBar(world);
 
         SleepSkipCause skipCause = this.sleepService.getCurrentSkipCause(world);
-        int skipDelay = this.flagsRepository.getSkipDelayFlag().getValueAt(world);
+        int skipDelay = this.flagsRepository.getSkipDelayFlag().getValueAt(world) * 20;
 
         int playersSleepingAmount = this.sleepService.getSleepersAmount(world);
         int playersRequiredAmount = this.sleepService.getRequiredSleepersCount(world);
@@ -120,7 +120,7 @@ public class PlayerSleepStateChangeEventListener implements Listener {
             //retrieve a list of all players currently asleep and send them to the SleepSkipEvent (in service)
             List<OfflinePlayer> peopleWhoSlept = this.sleepService.getSleepers(world).stream().map(p -> Bukkit.getOfflinePlayer(p.getUniqueId())).collect(Collectors.toList());
             this.sleepService.executeSleepReset(world, player.getName(), player.getDisplayName(), peopleWhoSlept, skipCause);
-        }, skipDelay * 20L);
+        }, skipDelay + 1);
     }
 
     private void updateBossBar(World world) {
