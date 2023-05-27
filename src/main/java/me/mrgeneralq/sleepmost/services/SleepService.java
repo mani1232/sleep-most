@@ -310,7 +310,7 @@ public class SleepService implements ISleepService {
         SleepMostWorld sleepMostWorld = this.sleepMostWorldService.getWorld(world);
         sleepMostWorld.setTimeCycleAnimationIsRunning(true);
 
-        Bukkit.getRegionScheduler().runAtFixedRate(this.main, player.getLocation(), scheduledTask -> new NightcycleAnimationTask(scheduledTask, this, this.flagsRepository , world, player, sleepingPlayers , sleepSkipCause, sleepMostWorldService, messageService, configService).run(), 1, 1);
+        Bukkit.getGlobalRegionScheduler().runAtFixedRate(this.main, scheduledTask -> new NightcycleAnimationTask(scheduledTask, this, this.flagsRepository , world, player, sleepingPlayers , sleepSkipCause, sleepMostWorldService, messageService, configService).run(), 1, 1);
     }
 
 
